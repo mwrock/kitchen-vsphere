@@ -20,7 +20,7 @@ module Kitchen
 
   module Driver
 
-    # Version string for EC2 Test Kitchen driver
-    VSPHERE_VERSION = '0.1.0'
+    # Version string for vsphere Test Kitchen driver
+    VSPHERE_VERSION = '0.1.0.alpha.1'
   end
 end
