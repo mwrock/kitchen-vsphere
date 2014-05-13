@@ -1,8 +1,8 @@
 # <a name="title"></a> Kitchen::Vsphere: A Test Kitchen Driver for VMWare vSphere
 
-A [Test Kitchen](https://kitchen.ci/)Driver for VMWare vSphere
+A [Test Kitchen](https://kitchen.ci/) Driver for VMWare vSphere
 
-This driver uses the [fog gem](https://rubygems.org/gems/fog)to provision and destroy VMWare vSphere instances. Use your own vSphere host for your infrastructure testing!
+This driver uses the [fog gem](https://rubygems.org/gems/fog) to provision and destroy VMWare vSphere instances. Use your own vSphere host for your infrastructure testing!
 
 Shamelessly copied from [Fletcher Nichol](https://github.com/fnichol)'s
 awesome work on an [EC2 driver](https://github.com/opscode/kitchen-ec2).
