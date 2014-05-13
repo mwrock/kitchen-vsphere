@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["matt@mattwrock.com"]
   gem.description   = "A Test Kitchen Driver for VMWare vShere"
   gem.summary       = gem.description
-  gem.homepage      = "http://kitchen.ci/"
+  gem.homepage      = "https://github.com/mwrock/kitchen-vsphere"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = []
