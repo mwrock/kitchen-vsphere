@@ -36,7 +36,7 @@ module Kitchen
       def create(state)
         config[:server_name] ||= generate_name(instance.name)
         server = create_server(state)
-        state[:hostname] = server.ipaddress
+        state[:hostname] = server.public_ip_address
         wait_for_sshd(state[:hostname], config[:username],
           { :port => config[:port] }) ; info '(ssh ready)'
         if config[:upload_public_ssh_key]
@@ -82,7 +82,7 @@ module Kitchen
         server = compute.servers.get(clone_results['new_vm']['id'])
         state[:server_id] = server.id
         info "VSphere instance <#{state[:server_id]}> created."
-        server.wait_for { print '.'; tools_state != 'toolsNotRunning' }
+        server.wait_for { print '.'; tools_state != 'toolsNotRunning' && public_ip_address }
         puts "\n(server ready)"
         server
       end
