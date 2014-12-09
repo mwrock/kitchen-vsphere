@@ -22,6 +22,7 @@ require 'kitchen'
 require 'etc'
 require 'ipaddr'
 require 'socket'
+require 'timeout'
 
 module Kitchen
   module Driver
@@ -33,14 +34,27 @@ module Kitchen
       default_config :use_ipv6, false
       default_config :upload_public_ssh_key, true
 
+      def wait_for_sshd_updating_ip(state, server)
+        begin
+          state[:hostname] = server.public_ip_address
+          timeout(5) {
+            SSH.new(state[:hostname], config[:username],
+              { :port => config[:port], :logger => logger }).wait
+            info "SSH connected to #{state[:hostname]}:#{config[:port]}"
+          }
+        rescue Timeout::Error
+          server = compute.servers.get(state[:server_id])
+          retry if server
+          raise ActionFailed, 'Server deleted'
+        end
+      end
+
       def create(state)
         config[:server_name] ||= generate_name(instance.name)
         server = create_server(state)
-        state[:hostname] = server.public_ip_address
-        wait_for_sshd(state[:hostname], config[:username],
-          { :port => config[:port] }) ; info '(ssh ready)'
+        wait_for_sshd_updating_ip(state, server)
         if config[:upload_public_ssh_key]
-          upload_public_ssh_key(state, config, server)
+          upload_public_ssh_key(state, config)
         end
       rescue ::Fog::Errors::Error, Excon::Errors::Error => ex
         raise ActionFailed, ex.message
@@ -81,8 +95,12 @@ module Kitchen
         clone_results = compute.vm_clone(server_configed)
         server = compute.servers.get(clone_results['new_vm']['id'])
         state[:server_id] = server.id
-        info "VSphere instance <#{state[:server_id]}> created."
-        server.wait_for { print '.'; tools_state != 'toolsNotRunning' && public_ip_address }
+        state[:server_vmname] = server.name
+        info "VSphere instance <#{server.id}>, '#{server.name}' created."
+        server.wait_for {
+          print '.'
+          tools_state != 'toolsNotRunning' && public_ip_address
+        }
         puts "\n(server ready)"
         server
       end
@@ -108,7 +126,7 @@ module Kitchen
         pieces.join sep
       end
 
-      def upload_public_ssh_key(state, config, server)
+      def upload_public_ssh_key(state, config)
         ssh = ::Fog::SSH.new(state[:hostname], config[:username],
           { :password => config[:password] })
         pub_key = open(config[:public_key_path]).read
