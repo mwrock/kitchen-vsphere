@@ -38,8 +38,8 @@ module Kitchen
         begin
           state[:hostname] = server.public_ip_address
           timeout(5) {
-            SSH.new(state[:hostname], config[:username],
-              { :port => config[:port], :logger => logger }).wait
+            wait_for_sshd(state[:hostname], config[:username],
+              { :port => config[:port] })
             info "SSH connected to #{state[:hostname]}:#{config[:port]}"
           }
         rescue Timeout::Error
