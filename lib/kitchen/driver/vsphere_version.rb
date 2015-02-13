@@ -21,6 +21,6 @@ module Kitchen
   module Driver
 
     # Version string for vsphere Test Kitchen driver
-    VSPHERE_VERSION = '0.2.0.dev'
+    VSPHERE_VERSION = '0.2.0'
   end
 end
