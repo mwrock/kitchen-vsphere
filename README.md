@@ -40,7 +40,7 @@ Provide, at a minimum, the required driver options in your `.kitchen.yml` file:
         network_adapter_device_key: [network key]
         template_path: [path to the template of vm to clone]
 
-The `template-path` option can be specified as a template name or vm name. The path should include the folder path relative th the `datacenter`.
+The `template-path` option can be specified as a template name or vm name. The path should include the folder path relative to the `datacenter`.
 
 By default, a unique server name will be generated and the current user's RSA SSH key will be used.
 
