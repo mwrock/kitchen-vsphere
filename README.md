@@ -1,6 +1,15 @@
-# <a name="title"></a> Kitchen::Vsphere: A Test Kitchen Driver for VMWare vSphere
+# kitchen-vsphere: A [Test-Kitchen](https://kitchen.ci/) Driver for VMWare vSphere
 
-A [Test Kitchen](https://kitchen.ci/) Driver for VMWare vSphere
+##Consider using the [chef-provisioning-vsphere driver](https://github.com/CenturyLinkCloud/chef-provisioning-vsphere#kitchen-driver) instead of this gem for your vsphere test-kitchen runs.
+
+I no longer actively develop this gem but am regularly commiting to chef-provisioning-vsphere which includes a test-kitchen driver. This driver has the following advantages over this kitchen-vsphere driver:
+
+- Very actively used and developed
+- Removes fog dependencies and leverages [rbvmomi](https://github.com/vmware/rbvmomi) directly
+- Better support for networking and storage options
+- Better support for windows
+
+*************************************************************
 
 This driver uses the [fog gem](https://rubygems.org/gems/fog) to provision and destroy VMWare vSphere instances. Use your own vSphere host for your infrastructure testing!
 
