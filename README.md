@@ -44,6 +44,22 @@ The `template-path` option can be specified as a template name or vm name. The p
 
 By default, a unique server name will be generated and the current user's RSA SSH key will be used.
 
+## Finding the required expected hash
+If you need the expected hash for your vsphere instance you can use the fog gem directly
+```bash
+#install the fog gem
+gem install fog
+```
+then launch the interactive ruby console and fire off the following:
+```ruby
+require 'fog'
+Fog::Compute.new(:provider => "vsphere", :vsphere_username => "VSPHERE_USERNAME", :vsphere_password=> "PASSWORD", :vsphere_server => "HOSTNAME")
+```
+
+which will respond with the following message containing your server public key hash:
+```
+Fog::Vsphere::Errors::SecurityError: The remote system presented a public key with hash 74e6f3f9a9d50be352aa0fabcdc1df9977016af38da538cf76b3ba56a6363d11 but we're expecting a hash of <unset>...
+```
 ## Contributing
 
 1. Fork it
