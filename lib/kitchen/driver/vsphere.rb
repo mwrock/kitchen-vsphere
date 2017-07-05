@@ -37,7 +37,7 @@ module Kitchen
       def wait_for_sshd_updating_ip(state, server)
         begin
           state[:hostname] = server.public_ip_address
-          timeout(5) {
+          Timeout.timeout(5) {
             wait_for_sshd(state[:hostname], config[:username],
               { :port => config[:port] })
             info "SSH connected to #{state[:hostname]}:#{config[:port]}"
